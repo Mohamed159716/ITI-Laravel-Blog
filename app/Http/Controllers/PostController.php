@@ -2,15 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PostController extends Controller {
 
 
     public function index() {
-        $posts = Post::all();
+
+        // $from = date('Y-m-d');
+
+        // $to = date('2021-05-02');
+
+        // $posts =  Post::whereBetween('created_at', [$from, $to])->get();
+
+        // dd($posts);
+
+
         return view('posts.index',  [
             'posts' => Post::paginate(3)
         ]);
@@ -21,9 +32,13 @@ class PostController extends Controller {
         return view('posts.create', ['users' => $users]);
     }
 
-    public function store() {
+    public function store(PostRequest $request) {
+        // $request->validate([
+        //     'title' => ['required', 'min:3', 'unique:posts'],
+        //     'description' => ['required', 'min:10']
+        // ]);
         $formData = request()->all();
-        Post::create($formData);
+        $post = Post::create($formData);
         return redirect()->route('posts.index');
     }
 
@@ -41,10 +56,10 @@ class PostController extends Controller {
         ]);
     }
 
-    public function update($postId) {
+    public function update($postId, PostRequest $request) {
         $formData = request()->all();
-        array_shift($formData);
-        array_shift($formData);
+        unset($formData[0]);
+        unset($formData[0]);
         Post::find($postId)->update($formData);
         return redirect()->route('posts.index');
     }

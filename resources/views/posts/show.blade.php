@@ -1,4 +1,8 @@
-@extends('layout.app')
+@dd($post)
+
+
+
+@extends('layouts.app')
 @section('title')
 Show
 @endsection

@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 @section('title')Posts @endsection
 @section('content')
 <div class="text-center mt-4">
@@ -11,6 +11,7 @@
             <th scope="col">Title</th>
             <th scope="col">Posted By</th>
             <th scope="col">Created At</th>
+            <th scope="col">Slug</th>
             <th scope="col" class="text-center">Actions</th>
         </tr>
     </thead>
@@ -21,6 +22,7 @@
             <td>{{$post->title}}</td>
             <td>{{$post->user->name}}</td>
             <td>{{\Carbon\Carbon::parse($post->created_at)->format('Y-m-d')}}</td>
+            <td>{{$post->slug ?? "No Slug Found"}}</td>
             <td class="text-center">
                 <a href="{{route('posts.show', ['postId' => $post->id])}}" class="btn btn-info">View</a>
                 <a href="{{route('posts.edit', ['postId' => $post->id])}}" class="btn btn-primary">Edit</a>
